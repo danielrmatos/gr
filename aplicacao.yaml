@@ -5,3 +5,5 @@
   tasks:
   - name: Instalar aplicação
     git: 
+     repo: 'https://github.com/alexfrt/photoshare.git'
+     dest: /home/app/public_html
