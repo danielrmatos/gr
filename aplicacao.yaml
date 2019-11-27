@@ -1,0 +1,7 @@
+---
+- name: instalar aplicação
+  hosts: app
+
+  tasks:
+  - name: Instalar aplicação
+    git: 
