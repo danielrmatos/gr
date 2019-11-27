@@ -7,3 +7,34 @@
     git: 
      repo: 'https://github.com/alexfrt/photoshare.git'
      dest: /home/app/public_html
+
+  - name: requerimento
+    apt:
+      name: python-yaml
+      state: latest
+
+
+  - name: Subir a aplicação
+    docker_compose:
+      project_src: /home/app/public_html
+      state: absent
+
+  - name: criar e subir servicos
+    docker_compose:
+      project_src: /home/app/public_html
+    register: output
+
+  - debug:
+      var: output
+
+  - name: Subir novamente
+    docker_compose:
+      project_src: /home/app/public_html
+      build: no
+    register: output
+
+  - debug:
+      var: output
+
+  - assert:
+      that: "no output.changed"
