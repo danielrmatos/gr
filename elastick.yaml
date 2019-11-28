@@ -1,0 +1,14 @@
+---
+- name: instalar Elastik
+  hosts: elk
+
+  tasks:
+  - name: Criar diretório
+    shell: mkdir -p /app/elk ; cd /app/elk
+    args:
+      warn: no
+
+  - name: Baixar e executar Elastik
+    shell: cd /app/elk && curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-linux-x86_64.tar.gz && tar xfa elasticsearch-7.4.2-linux-x86_64.tar.gz && chown -R app:app -R elasticsearch-7.4.2 && su app -c "./elasticsearch-7.4.2/bin/elasticsearch"&
+    args:
+      warn: no
