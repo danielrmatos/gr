@@ -10,9 +10,12 @@
 
   - name: requerimento
     apt:
-      name: python-yaml
+      name: ['python-yaml', 'python3-pip']
       state: latest
 
+  - name: Requerimento para o compose
+    pip:
+      name: docker-compose
 
   - name: Subir a aplicação
     docker_compose:
@@ -35,6 +38,3 @@
 
   - debug:
       var: output
-
-  - assert:
-      that: "no output.changed"
