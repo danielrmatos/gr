@@ -4,11 +4,23 @@
 
   tasks:
   - name: Criar diretório
-    shell: mkdir -p /app/elk ; cd /app/elk
+    shell: mkdir -p /app/elk
     args:
       warn: no
 
-  - name: Baixar e executar Elastik
-    shell: cd /app/elk && curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-linux-x86_64.tar.gz && tar xfa elasticsearch-7.4.2-linux-x86_64.tar.gz && chown -R app:app -R elasticsearch-7.4.2 && su app -c "./elasticsearch-7.4.2/bin/elasticsearch"&
+  - name: Baixar e descompactar Elastik
+    shell: cd /app/elk && curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.4.2-linux-x86_64.tar.gz && tar xfa elasticsearch-7.4.2-linux-x86_64.tar.gz && chown -R app:app -R elasticsearch-7.4.2
     args:
       warn: no
+    register: output
+
+  - debug:
+      var: output
+
+  - name: Executar Elastik
+    shell: cd /app/elk && su app -c "./elasticsearch-7.4.2/bin/elasticsearch -d" 
+    args:
+      warn: no
+    register: output
+  - debug:
+      var: output
