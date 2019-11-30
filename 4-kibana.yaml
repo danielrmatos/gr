@@ -1,0 +1,26 @@
+---
+- name: instalar Kibana
+  hosts: elk
+
+  tasks:
+  - name: Criar diretório
+    shell: mkdir -p /app/kibana
+    args:
+      warn: no
+
+  - name: Baixar e descompactar Kibana
+    shell: cd /app/kibana && curl -O https://artifacts.elastic.co/downloads/kibana/kibana-7.4.2-linux-x86_64.tar.gz && tar xfa kibana-7.4.2-linux-x86_64.tar.gz && chown -R app:app -R kibana-7.4.2-linux-x86_64
+    args:
+      warn: no
+    register: output
+
+  - debug:
+      var: output
+
+  - name: Executar Kibana
+    shell: cd /app/kibana && su app -c "./kibana-7.4.2-linux-x86_64/bin/kibana &" 
+    args:
+      warn: no
+    register: output
+  - debug:
+      var: output
