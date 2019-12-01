@@ -1,0 +1,40 @@
+---
+- name: instalar Filebeat
+  hosts: elk
+
+  tasks:
+  - name: Baixar e instalar
+    shell: cd /tmp && curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.2-amd64.deb && dpkg -i /tmp/filebeat-7.4.2-amd64.deb
+    args:
+      warn: no
+    register: output
+
+  - debug:
+      var: output
+
+  - name: Habilitar
+    shell:  filebeat modules enable system
+    args:
+      warn: no
+    register: output
+
+  - debug:
+      var: output
+
+  - name: Setup
+    shell: filebeat setup 
+    args:
+      warn: no
+    register: output
+
+  - debug:
+      var: output
+
+  - name: Iniciar
+    shell: filebeat -e &
+    args:
+      warn: no
+    register: output
+  
+  - debug:
+      var: output
